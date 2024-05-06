@@ -315,8 +315,7 @@ def top_chart_tran_amount(table_name):
     table2 = cursor.fetchall()
     mydb.commit()
     df2 = pd.DataFrame(table2 , columns=["State", "Amount"])
-    col1, col2 = st.columns(2)
-    with col1:
+    with col2:
         fig_amount2 = px.bar(df2, x="State", y="Amount", title="ASCEN_Transaction Amount", hover_name="State",
                              color_discrete_sequence=px.colors.sequential.Blues_r, height=650, width=500)
         st.plotly_chart(fig_amount2)
@@ -330,11 +329,10 @@ def top_chart_tran_amount(table_name):
     table3 = cursor.fetchall()
     mydb.commit()
     df3 = pd.DataFrame(table3 , columns=["State", "Amount"])
-    col1, col2 = st.columns(2)
-    with col1:
-        fig_amount3 = px.bar(df3, x="State", y="Amount", title="AVERAGE_Transaction Amount", hover_name="State",
-                            color_discrete_sequence=px.colors.sequential.Electric_r, height=800, width=1000)
-        st.plotly_chart(fig_amount3)
+
+    fig_amount3 = px.bar(df3, x="State", y="Amount", title="AVERAGE_Transaction Amount", hover_name="State",
+                        color_discrete_sequence=px.colors.sequential.Electric_r, height=800, width=1000)
+    st.plotly_chart(fig_amount3)
 
 def top_chart_tran_count(table_name):
     query1 = f'''SELECT State, SUM(Trans_count) AS Trans_count FROM {table_name}
@@ -359,8 +357,7 @@ def top_chart_tran_count(table_name):
     table2 = cursor.fetchall()
     mydb.commit()
     df2 = pd.DataFrame(table2 , columns=["State", "Trans_count"])
-    col1, col2 = st.columns(2)
-    with col1:
+    with col2:
         fig_count2 = px.bar(df2, x="State", y="Trans_count", title="ASCEN_Transaction Count", hover_name="State",
                              color_discrete_sequence=px.colors.sequential.Blues_r, height=650, width=500)
         st.plotly_chart(fig_count2)
@@ -374,11 +371,10 @@ def top_chart_tran_count(table_name):
     table3 = cursor.fetchall()
     mydb.commit()
     df3 = pd.DataFrame(table3 , columns=["State","Trans_count"])
-    col1, col2 = st.columns(2)
-    with col1:
-        fig_count3 = px.bar(df3, x="State", y="Trans_count", title="AVERAGE_Transaction Count", hover_name="State",
-                            color_discrete_sequence=px.colors.sequential.Aggrnyl, height=800, width=1000)
-        st.plotly_chart(fig_count3)
+
+    fig_count3 = px.bar(df3, x="State", y="Trans_count", title="AVERAGE_Transaction Count", hover_name="State",
+                        color_discrete_sequence=px.colors.sequential.Aggrnyl, height=800, width=1000)
+    st.plotly_chart(fig_count3)
 
 def top_chart_regis_users(table_name,State):
     query1 = f'''SELECT District, SUM(Registered_users) AS Registered_users
@@ -494,7 +490,7 @@ def top_chart_user_count(table_name):
     df1 = pd.DataFrame(table, columns=["State", "User_count"])
     col1, col2 = st.columns(2)
     with col1:
-        fig_count = px.bar(df1, x="State", y="User_count", title="TOP 10 User_count", hover_name="User_count",
+        fig_count = px.bar(df1, x="State", y="User_count", title="TOP 10 User_count", hover_name="State",
                            color_discrete_sequence=px.colors.sequential.Electric_r, height=650, width=500)
         st.plotly_chart(fig_count)
 
@@ -507,27 +503,26 @@ def top_chart_user_count(table_name):
     table = cursor.fetchall()
     mydb.commit()
     df2 = pd.DataFrame(table, columns=["State", "User_count"])
-    col1, col2 = st.columns(2)
-    with col1:
+
+    with col2:
         fig_count = px.bar(df2, x="State", y="User_count", title="LEAST 10 User_count",
-                           hover_name="User_count",
-                           color_discrete_sequence=px.colors.sequential.Electric_r, height=650, width=500)
+                           hover_name="State", color_discrete_sequence=px.colors.sequential.Electric_r, height=650, width=500)
+
         st.plotly_chart(fig_count)
     # AVERAGE User_count
-        query3 = f'''SELECT State, AVG(User_count) AS User_count FROM {table_name}
-                               GROUP BY State 
-                               ORDER BY User_count;'''
+    query3 = f'''SELECT State, AVG(User_count) AS User_count FROM {table_name}
+                           GROUP BY State 
+                           ORDER BY User_count;'''
 
-        cursor.execute(query3)
-        table = cursor.fetchall()
-        mydb.commit()
-        df3 = pd.DataFrame(table, columns=["State", "User_count"])
-        col1, col2 = st.columns(2)
-        with col1:
-            fig_count = px.bar(df3, x="State", y="User_count", title="AVERAGE User_count",
-                               hover_name="User_count",
-                               color_discrete_sequence=px.colors.sequential.Electric_r, height=650, width=500)
-            st.plotly_chart(fig_count)
+    cursor.execute(query3)
+    table = cursor.fetchall()
+    mydb.commit()
+    df3 = pd.DataFrame(table, columns=["State", "User_count"])
+
+    fig_count = px.bar(df3, x="State", y="User_count", title="AVERAGE User_count",
+                       hover_name="User_count", color_discrete_sequence=px.colors.sequential.Electric_r, height=800, width=800)
+
+    st.plotly_chart(fig_count)
 
 
 #_______________________ STREAMLIT ______________________
@@ -747,14 +742,16 @@ elif select == "TOP CHARTS":
                                                 "9. App opens of Map User",
                                                 "10. User Count of Top User",
                                                 ])
+    print("Selected question:", question)
     if question == "1. Transaction Amount and Count of Aggregated Insurance":
+
         st.subheader("AGG_INS TRANSACTION AMOUNT")
         top_chart_tran_amount("agg_insurance")
 
         st.subheader("AGG_INS TRANSACTION COUNT")
         top_chart_tran_count("agg_insurance")
 
-    elif question == "2.Transaction Amount and Count of Aggregated Transaction":
+    elif question == "2. Transaction Amount and Count of Aggregated Transaction":
 
         st.subheader("AGG_TRA TRANSACTION AMOUNT")
         top_chart_tran_amount("agg_transaction")
@@ -811,7 +808,7 @@ elif select == "TOP CHARTS":
         st.subheader("APP_OPEN")
         top_chart_app_open("map_user",State)
 
-    elif question == "10. Registered users of Top User":
+    elif question == "10. User Count of Top User":
 
-        st.subheader("REGISTERED USERS")
+        st.subheader("USER COUNT")
         top_chart_user_count("top_user")

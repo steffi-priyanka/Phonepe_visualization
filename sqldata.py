@@ -47,11 +47,11 @@ create_query_3 = '''CREATE TABLE if not exists agg_user(State varchar(255),
                                               Year int,
                                               Quarter int,
                                               Brand varchar(100),
-                                              Count bigint,
+                                              Trans_count bigint,
                                               Percentage float)'''
 cursor.execute(create_query_3)
 insert_query_3= '''INSERT INTO agg_user(State, Year,Quarter, Brand ,
-                                              Count,Percentage)
+                                              Trans_count,Percentage)
                                               values(%s,%s,%s,%s,%s,%s)'''
 data = dataframe.df_agg_user.values.tolist()  ############## remove dataframe. while code merge
 cursor.executemany(insert_query_3,data)
