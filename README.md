@@ -9,7 +9,7 @@ pip install  streamlit_option_menu
 
 
 WORKFLOW:
-(1) DATA EXTRACTION - Clone data from Phonepe Github repo
+(1) DATA EXTRACTION - Clone data from Phonepe Github repo,  
 (2) DATA TRANSFORMATION - Pre-Process data into a format suitable for analysis and Visualization
 (3) DATA INSERTION - Transform the data to MySql
 (4) DATA RETRIEVAL- Fetch the data MySQL to Pandas DataFrame
