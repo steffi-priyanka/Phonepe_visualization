@@ -86,7 +86,7 @@ df_agg_trans["State"]=df_agg_trans["State"].str.title()
 user_path = "C:/Users/user/PycharmProjects/capstone_2/pulse/data/aggregated/user/country/india/state/"
 agg_user = os.listdir(user_path)
 
-user_col_name = {'State': [], 'Year': [], 'Quarter': [], 'Brand': [], 'Trans_count': [],
+user_col_name = {'State': [], 'Year': [], 'Quarter': [], 'Brand': [], 'Count': [],
                  'Percentage': []}
 
 for state in agg_user:
@@ -109,7 +109,7 @@ for state in agg_user:
                     count = i['count']
                     percent = i['percentage']
                     user_col_name['Brand'].append(brand)
-                    user_col_name['Trans_count'].append(count)
+                    user_col_name['Count'].append(count)
                     user_col_name['Percentage'].append(percent)
                     user_col_name['State'].append(state)
                     user_col_name['Year'].append(year)
